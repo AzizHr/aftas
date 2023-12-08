@@ -1,4 +1,3 @@
 package com.dev.aftas.service;
 
-public interface CompetitionService {
-}
+public interface CompetitionService {}
