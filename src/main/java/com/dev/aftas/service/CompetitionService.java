@@ -1,4 +1,4 @@
 package com.dev.aftas.service;
 
-public class CompetitionService {
+public interface CompetitionService {
 }
