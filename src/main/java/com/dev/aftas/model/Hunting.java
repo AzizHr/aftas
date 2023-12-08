@@ -19,5 +19,8 @@ public class Hunting {
     @ManyToOne
     @Column(name = "fish_id")
     private Fish fish;
+    @ManyToOne
+    @Column(name = "member_id")
+    private Member member;
 
 }
