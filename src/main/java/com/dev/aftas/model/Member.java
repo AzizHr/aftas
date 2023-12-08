@@ -1,13 +1,12 @@
 package com.dev.aftas.model;
 
 import com.dev.aftas._enum.IdentityDocumentType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -23,5 +22,7 @@ public class Member {
     private String nationality;
     private IdentityDocumentType identityDocument;
     private String identityNumber;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<Hunting> huntingList;
 
 }
