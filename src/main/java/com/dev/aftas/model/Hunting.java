@@ -1,8 +1,6 @@
 package com.dev.aftas.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,5 +13,8 @@ public class Hunting {
     @GeneratedValue
     private Integer id;
     private Integer numberOfFish;
+    @ManyToOne
+    @Column(name = "competition_id")
+    private Competition competition;
 
 }
