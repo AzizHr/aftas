@@ -14,13 +14,13 @@ public class Hunting {
     private Integer id;
     private Integer numberOfFish;
     @ManyToOne
-    @Column(name = "competition_id")
+    @JoinColumn(name = "competition_id")
     private Competition competition;
     @ManyToOne
-    @Column(name = "fish_id")
+    @JoinColumn(name = "fish_id")
     private Fish fish;
     @ManyToOne
-    @Column(name = "member_id")
+    @JoinColumn(name = "member_id")
     private Member member;
 
 }
