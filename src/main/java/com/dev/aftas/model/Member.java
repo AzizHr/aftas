@@ -20,6 +20,7 @@ public class Member {
     private String familyName;
     private LocalDate accessionDate;
     private String nationality;
+    @Enumerated(EnumType.STRING)
     private IdentityDocumentType identityDocument;
     private String identityNumber;
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
