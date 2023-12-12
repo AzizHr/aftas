@@ -1,4 +1,6 @@
 package com.dev.aftas.repository;
 
-public interface CompetitionRepository {
-}
+import com.dev.aftas.model.Competition;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CompetitionRepository extends JpaRepository<Competition, String> {}

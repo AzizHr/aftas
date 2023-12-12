@@ -1,4 +1,6 @@
 package com.dev.aftas.repository;
 
-public interface HuntingRepository {
-}
+import com.dev.aftas.model.Hunting;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface HuntingRepository extends JpaRepository<Hunting, Integer> {}
