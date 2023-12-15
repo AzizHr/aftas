@@ -70,7 +70,7 @@ public class FishController {
 
         try{
             message.put("message", "fish found");
-            message.put("fish", fishService.findById(name));
+            message.put("fish", fishService.findByName(name));
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch(Exception e){
             message.put("message", "No fish found");

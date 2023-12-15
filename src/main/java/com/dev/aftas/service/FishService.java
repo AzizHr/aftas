@@ -9,9 +9,9 @@ import java.util.List;
 public interface FishService {
 
     List<FishResponseDTO> findAll();
-    FishResponseDTO save(FishDTO fishDTO);
-    FishResponseDTO update(FishDTO fishDTO);
-    Boolean delete(String name);
-    FishResponseDTO findById(String name);
+    FishResponseDTO save(FishDTO fishDTO) throws Exception;
+    FishResponseDTO update(FishDTO fishDTO) throws Exception;
+    Boolean delete(String name) throws Exception;
+    FishResponseDTO findByName(String name) throws Exception;
 
 }

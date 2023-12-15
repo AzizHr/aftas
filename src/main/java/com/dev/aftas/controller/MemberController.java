@@ -68,7 +68,7 @@ public class MemberController {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "member found");
-            message.put("member", memberService.findById(num));
+            message.put("member", memberService.findByNum(num));
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch(Exception e){
             throw new Exception("cannot find any member");

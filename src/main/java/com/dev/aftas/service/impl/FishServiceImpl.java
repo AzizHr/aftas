@@ -33,30 +33,33 @@ public class FishServiceImpl implements FishService {
     }
 
     @Override
-    public FishResponseDTO save(FishDTO fishDTO) {
+    public FishResponseDTO save(FishDTO fishDTO) throws Exception {
         Fish fish = modelMapper.map(fishDTO, Fish.class);
-        fish.setLevel(levelRepository.findById(fishDTO.getLevelId()).get());
+        fish.setLevel(levelRepository.findById(fishDTO.getLevelId()).orElseThrow(() -> new Exception("No fish found")));
         return modelMapper.map(fishRepository.save(fish), FishResponseDTO.class);
     }
 
     @Override
-    public FishResponseDTO update(FishDTO fishDTO) {
-        Fish fish = modelMapper.map(fishDTO, Fish.class);
-        return modelMapper.map(fishRepository.save(fish), FishResponseDTO.class);
+    public FishResponseDTO update(FishDTO fishDTO) throws Exception {
+        if(findByName(fishDTO.getName()) != null) {
+            Fish fish = modelMapper.map(fishDTO, Fish.class);
+            return modelMapper.map(fishRepository.save(fish), FishResponseDTO.class);
+        }
+        return null;
     }
 
     @Override
-    public Boolean delete(String code) {
-        if(findById(code) != null) {
-            fishRepository.deleteById(code);
+    public Boolean delete(String name) throws Exception {
+        if(findByName(name) != null) {
+            fishRepository.deleteById(name);
             return true;
         }
         return false;
     }
 
     @Override
-    public FishResponseDTO findById(String code) {
-        Fish fish = modelMapper.map(fishRepository.findById(code).orElseThrow(), Fish.class);
+    public FishResponseDTO findByName(String name) throws Exception {
+        Fish fish = modelMapper.map(fishRepository.findById(name).orElseThrow(() -> new Exception("No fish found with this name")), Fish.class);
         return modelMapper.map(fish, FishResponseDTO.class);
     }
 }

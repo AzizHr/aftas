@@ -39,25 +39,25 @@ public class HuntingServiceImpl implements HuntingService {
     }
 
     @Override
-    public HuntingResponseDTO save(HuntingDTO huntingDTO) {
+    public HuntingResponseDTO save(HuntingDTO huntingDTO) throws Exception {
         Hunting hunting = modelMapper.map(huntingDTO, Hunting.class);
-        hunting.setCompetition(competitionRepository.findById(huntingDTO.getCompetitionId()).get());
-        hunting.setFish(fishRepository.findById(huntingDTO.getFishName()).get());
-        hunting.setMember(memberRepository.findById(huntingDTO.getMemberNum()).get());
+        hunting.setCompetition(competitionRepository.findById(huntingDTO.getCompetitionId()).orElseThrow(() -> new Exception("No competition found")));
+        hunting.setFish(fishRepository.findById(huntingDTO.getFishName()).orElseThrow(() -> new Exception("No fish found")));
+        hunting.setMember(memberRepository.findById(huntingDTO.getMemberNum()).orElseThrow(() -> new Exception("No member found")));
         return modelMapper.map(huntingRepository.save(hunting), HuntingResponseDTO.class);
     }
 
     @Override
-    public HuntingResponseDTO update(HuntingDTO huntingDTO) {
+    public HuntingResponseDTO update(HuntingDTO huntingDTO) throws Exception {
         Hunting hunting = modelMapper.map(huntingDTO, Hunting.class);
-        hunting.setCompetition(competitionRepository.findById(huntingDTO.getCompetitionId()).get());
-        hunting.setFish(fishRepository.findById(huntingDTO.getFishName()).get());
-        hunting.setMember(memberRepository.findById(huntingDTO.getMemberNum()).get());
+        hunting.setCompetition(competitionRepository.findById(huntingDTO.getCompetitionId()).orElseThrow(() -> new Exception("No competition found")));
+        hunting.setFish(fishRepository.findById(huntingDTO.getFishName()).orElseThrow(() -> new Exception("No fish found")));
+        hunting.setMember(memberRepository.findById(huntingDTO.getMemberNum()).orElseThrow(() -> new Exception("No member found")));
         return modelMapper.map(huntingRepository.save(hunting), HuntingResponseDTO.class);
     }
 
     @Override
-    public Boolean delete(Integer id) {
+    public Boolean delete(Integer id) throws Exception {
         if(findById(id) != null) {
             huntingRepository.deleteById(id);
             return true;
@@ -66,8 +66,8 @@ public class HuntingServiceImpl implements HuntingService {
     }
 
     @Override
-    public HuntingResponseDTO findById(Integer id) {
-        Hunting hunting = modelMapper.map(huntingRepository.findById(id).orElseThrow(), Hunting.class);
+    public HuntingResponseDTO findById(Integer id) throws Exception {
+        Hunting hunting = modelMapper.map(huntingRepository.findById(id).orElseThrow(() -> new Exception("No hunting found")), Hunting.class);
         return modelMapper.map(hunting, HuntingResponseDTO.class);
     }
 

@@ -10,8 +10,8 @@ public interface MemberService {
 
     List<MemberResponseDTO> findAll();
     MemberResponseDTO save(MemberDTO memberDTO);
-    MemberResponseDTO update(MemberDTO memberDTO);
-    Boolean delete(Integer num);
-    MemberResponseDTO findById(Integer num);
+    MemberResponseDTO update(MemberDTO memberDTO) throws Exception;
+    Boolean delete(Integer num) throws Exception;
+    MemberResponseDTO findByNum(Integer num) throws Exception;
 
 }

@@ -36,14 +36,17 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberResponseDTO update(MemberDTO memberDTO) {
-        Member member = modelMapper.map(memberDTO, Member.class);
-        return modelMapper.map(memberRepository.save(member), MemberResponseDTO.class);
+    public MemberResponseDTO update(MemberDTO memberDTO) throws Exception {
+        if(findByNum(memberDTO.getNum()) != null) {
+            Member member = modelMapper.map(memberDTO, Member.class);
+            return modelMapper.map(memberRepository.save(member), MemberResponseDTO.class);
+        }
+        return null;
     }
 
     @Override
-    public Boolean delete(Integer code) {
-        if(findById(code) != null) {
+    public Boolean delete(Integer code) throws Exception {
+        if(findByNum(code) != null) {
             memberRepository.deleteById(code);
             return true;
         }
@@ -51,8 +54,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberResponseDTO findById(Integer code) {
-        Member member = modelMapper.map(memberRepository.findById(code).orElseThrow(), Member.class);
+    public MemberResponseDTO findByNum(Integer num) throws Exception {
+        Member member = modelMapper.map(memberRepository.findByNum(num).orElseThrow(() -> new Exception("No member found")), Member.class);
         return modelMapper.map(member, MemberResponseDTO.class);
     }
 }

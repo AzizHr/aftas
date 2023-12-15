@@ -1,6 +1,6 @@
 package com.dev.aftas.controller;
 
-import com.dev.aftas.dto.level.LevelDTO;
+import com.dev.aftas.model.Level;
 import com.dev.aftas.service.impl.LevelServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,11 +21,11 @@ public class LevelController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> save(@RequestBody LevelDTO levelDTO) throws Exception {
+    public ResponseEntity<Map<String, Object>> save(@RequestBody Level level) throws Exception {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "level created");
-            message.put("level", levelService.save(levelDTO));
+            message.put("level", levelService.save(level));
             return new ResponseEntity<>(message, HttpStatus.CREATED);
         }catch(Exception e) {
             throw new Exception("cannot create a new level");
@@ -33,11 +33,11 @@ public class LevelController {
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, Object>> update(@RequestBody LevelDTO levelDTO) throws Exception {
+    public ResponseEntity<Map<String, Object>> update(@RequestBody Level level) throws Exception {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "level updated");
-            message.put("level", levelService.update(levelDTO));
+            message.put("level", levelService.update(level));
             return new ResponseEntity<>(message, HttpStatus.CREATED);
         }catch(Exception e){
             throw new Exception("cannot update this level");

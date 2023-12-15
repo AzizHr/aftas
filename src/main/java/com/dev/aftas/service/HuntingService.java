@@ -12,9 +12,9 @@ import java.util.Optional;
 public interface HuntingService {
 
     List<HuntingResponseDTO> findAll();
-    HuntingResponseDTO save(HuntingDTO huntingDTO);
-    HuntingResponseDTO update(HuntingDTO huntingDTO);
-    Boolean delete(Integer id);
-    HuntingResponseDTO findById(Integer id);
+    HuntingResponseDTO save(HuntingDTO huntingDTO) throws Exception;
+    HuntingResponseDTO update(HuntingDTO huntingDTO) throws Exception;
+    Boolean delete(Integer id) throws Exception;
+    HuntingResponseDTO findById(Integer id) throws Exception;
 
 }
