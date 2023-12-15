@@ -8,7 +8,7 @@ public interface LevelService {
     List<Level> findAll();
     Level save(Level level) throws Exception;
     Level update(Level level) throws Exception;
-    Boolean delete(Integer id) throws Exception;
-    Level findById(Integer id) throws Exception;
+    Boolean delete(Integer code) throws Exception;
+    Level findByCode(Integer code) throws Exception;
 
 }

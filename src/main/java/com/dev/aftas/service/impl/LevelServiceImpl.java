@@ -46,16 +46,29 @@ public class LevelServiceImpl implements LevelService {
 
     @Override
     public Level update(Level level) throws Exception {
-        if(findById(level.getCode()) != null) {
-            levelRepository.deleteById(level.getCode());
-            return levelRepository.save(level);
+
+        List<Level> levels = findAll();
+
+        if(findByCode(level.getCode()) != null) {
+
+            for (int i = 0; i < levels.size(); i++) {
+                if (levels.get(i).getCode() + 1 == level.getCode()) {
+                    if (level.getPoints() <= levels.get(i).getPoints()) {
+                        throw new Exception("Points should be greater than " + levels.get(i).getPoints());
+                    } else {
+                        return levelRepository.save(level);
+                    }
+                } else if (i == levels.size() - 1) {
+                    throw new Exception("ID should be greater than " + levels.get(i).getCode() + " and less than " + (levels.get(i).getCode() + 2));
+                }
+            }
         }
-        return null;
+        return levelRepository.save(level);
     }
 
     @Override
     public Boolean delete(Integer code) throws Exception {
-        if(findById(code) != null) {
+        if(findByCode(code) != null) {
             levelRepository.deleteById(code);
             return true;
         }
@@ -63,7 +76,7 @@ public class LevelServiceImpl implements LevelService {
     }
 
     @Override
-    public Level findById(Integer code) throws Exception {
+    public Level findByCode(Integer code) throws Exception {
         return levelRepository.findById(code).orElseThrow(() -> new Exception("No level found"));
     }
 

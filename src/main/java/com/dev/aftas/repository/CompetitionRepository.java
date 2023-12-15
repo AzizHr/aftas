@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface CompetitionRepository extends JpaRepository<Competition, String> {
 
-    Boolean existByLocationAndDate(String location, LocalDate date);
+    Boolean existsByLocationAndDate(String location, LocalDate date);
     Optional<Competition> findByCode(String code);
 
 }

@@ -35,7 +35,7 @@ public class CompetitionServiceImpl implements CompetitionService {
     @Override
     public CompetitionResponseDTO save(CompetitionDTO competitionDTO) {
 
-        if (competitionRepository.existByLocationAndDate(competitionDTO.getLocation(), competitionDTO.getDate())) {
+        if (competitionRepository.existsByLocationAndDate(competitionDTO.getLocation(), competitionDTO.getDate())) {
             throw new RuntimeException("A competition is already exists with the same location and date.");
         }
 

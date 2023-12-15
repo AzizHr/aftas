@@ -1,10 +1,9 @@
 package com.dev.aftas.dto.fish;
 
 import com.dev.aftas.dto.hunting.HuntingDTO;
-import com.dev.aftas.dto.level.LevelDTO;
+import com.dev.aftas.model.Level;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
 @Data
@@ -14,6 +13,6 @@ public class FishResponseDTO {
     private String name;
     private Double averageWeight;
     private List<HuntingDTO> huntingList;
-    private LevelDTO level;
+    private Level level;
 
 }

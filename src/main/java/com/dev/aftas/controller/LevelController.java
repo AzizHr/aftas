@@ -28,7 +28,8 @@ public class LevelController {
             message.put("level", levelService.save(level));
             return new ResponseEntity<>(message, HttpStatus.CREATED);
         }catch(Exception e) {
-            throw new Exception("cannot create a new level");
+            message.put("message", e.getMessage());
+            return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -68,10 +69,11 @@ public class LevelController {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "level found");
-            message.put("level", levelService.findById(code));
+            message.put("level", levelService.findByCode(code));
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch(Exception e){
-            throw new Exception("cannot find any level");
+            message.put("message", e.getMessage());
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
 
     }

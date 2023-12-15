@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class Level {
 
     @Id
-    @GeneratedValue
     private Integer code;
     private String description;
     private Integer points;
