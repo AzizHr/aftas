@@ -9,7 +9,7 @@ public class HuntingDTO {
 
     private Integer id;
     private Integer numberOfFish;
-    private String competitionId;
+    private String competitionCode;
     private String fishName;
     private Integer memberNum;
 

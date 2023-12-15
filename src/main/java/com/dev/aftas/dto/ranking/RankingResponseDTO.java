@@ -1,7 +1,5 @@
 package com.dev.aftas.dto.ranking;
 
-import com.dev.aftas.dto.competition.CompetitionDTO;
-import com.dev.aftas.dto.member.MemberDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

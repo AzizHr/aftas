@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -85,6 +86,19 @@ public class CompetitionServiceImpl implements CompetitionService {
     public Boolean isCodeValid(String code) {
         String pattern = "^[a-z]{3}-\\d{2}-\\d{2}-\\d{2}$";
         return Pattern.matches(pattern, code);
+    }
+
+    @Override
+    public Boolean validateCompetitionDate(String competitionCode) {
+        Competition competition = competitionRepository.findById(competitionCode).orElse(null);
+        if (competition != null) {
+            LocalDate inscriptionDate = LocalDate.now();
+            LocalDate competitionDate = competition.getDate();
+            long daysBetween = ChronoUnit.DAYS.between(inscriptionDate, competitionDate);
+            return Math.abs(daysBetween) >= 1;
+        } else {
+            return false;
+        }
     }
 
 

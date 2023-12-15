@@ -17,5 +17,6 @@ public interface CompetitionService {
     CompetitionResponseDTO findByCode(String code) throws Exception;
     String generateCode(String location, LocalDate date);
     Boolean isCodeValid(String code);
+    Boolean validateCompetitionDate(String competitionCode);
 
 }
