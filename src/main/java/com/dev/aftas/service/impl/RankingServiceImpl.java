@@ -1,19 +1,12 @@
 package com.dev.aftas.service.impl;
 
-import com.dev.aftas.dto.hunting.HuntingResponseDTO;
-import com.dev.aftas.dto.member.MemberResponseDTO;
 import com.dev.aftas.dto.ranking.RankingDTO;
 import com.dev.aftas.dto.ranking.RankingResponseDTO;
-import com.dev.aftas.model.Hunting;
-import com.dev.aftas.model.Member;
-import com.dev.aftas.model.MemberCompetitionKey;
 import com.dev.aftas.model.Ranking;
-import com.dev.aftas.repository.MemberRepository;
 import com.dev.aftas.repository.RankingRepository;
 import com.dev.aftas.service.RankingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.Arrays;
 import java.util.List;
 
