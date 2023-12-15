@@ -29,7 +29,7 @@ public class CompetitionController {
             return new ResponseEntity<>(message, HttpStatus.CREATED);
         }catch(Exception e) {
             message.put("message", e.getMessage());
-            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -41,7 +41,8 @@ public class CompetitionController {
             message.put("competition", competitionService.save(competitionDTO));
             return new ResponseEntity<>(message, HttpStatus.CREATED);
         }catch(Exception e) {
-            throw new Exception("cannot update this competition");
+            message.put("message", e.getMessage());
+            return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

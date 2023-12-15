@@ -1,5 +1,6 @@
 package com.dev.aftas.dto.competition;
 
+import jakarta.annotation.Nullable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 public class CompetitionDTO {
 
+    @Nullable
     private String code;
     private LocalDate date;
     private LocalTime startTime;

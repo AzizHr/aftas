@@ -46,7 +46,7 @@ public class CompetitionServiceImpl implements CompetitionService {
             competition.setCode(generatedCode);
             return modelMapper.map(competitionRepository.save(competition), CompetitionResponseDTO.class);
         }
-        return null;
+        return modelMapper.map(competitionRepository.save(competition), CompetitionResponseDTO.class);
     }
 
     @Override
@@ -54,8 +54,9 @@ public class CompetitionServiceImpl implements CompetitionService {
         if(findByCode(competitionDTO.getCode()) != null) {
             Competition competition = modelMapper.map(competitionDTO, Competition.class);
             return modelMapper.map(competitionRepository.save(competition), CompetitionResponseDTO.class);
+        } else {
+            throw new Exception("No competition found");
         }
-        return null;
     }
 
     @Override
@@ -75,9 +76,9 @@ public class CompetitionServiceImpl implements CompetitionService {
 
     @Override
     public String generateCode(String location, LocalDate date) {
-        date = LocalDate.parse(date.format(DateTimeFormatter.ofPattern("dd-MM-yy")));
+        String formattedDate = date.format(DateTimeFormatter.ofPattern("dd-MM-yy"));
         location = location.substring(0, Math.min(location.length(), 3)).toLowerCase();
-        return location + "-" + date;
+        return location + "-" + formattedDate;
     }
 
     @Override

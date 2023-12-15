@@ -41,7 +41,8 @@ public class LevelController {
             message.put("level", levelService.update(level));
             return new ResponseEntity<>(message, HttpStatus.CREATED);
         }catch(Exception e){
-            throw new Exception("cannot update this level");
+            message.put("message", e.getMessage());
+            return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -58,7 +59,7 @@ public class LevelController {
                 return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
-            message.put("message" ,"No level found");
+            message.put("message", e.getMessage());
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
     }

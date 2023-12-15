@@ -17,7 +17,7 @@ public class Fish {
     @OneToMany(mappedBy = "fish", cascade = CascadeType.REMOVE)
     private List<Hunting> huntingList;
     @ManyToOne
-    @JoinColumn(name = "level_id")
+    @JoinColumn(name = "level_code")
     private Level level;
 
 }
