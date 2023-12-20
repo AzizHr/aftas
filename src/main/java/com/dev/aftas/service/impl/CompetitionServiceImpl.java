@@ -95,7 +95,8 @@ public class CompetitionServiceImpl implements CompetitionService {
             LocalDate inscriptionDate = LocalDate.now();
             LocalDate competitionDate = competition.getDate();
             long daysBetween = ChronoUnit.DAYS.between(inscriptionDate, competitionDate);
-            return Math.abs(daysBetween) >= 1;
+            System.out.println(daysBetween);
+            return daysBetween >= 1;
         } else {
             return false;
         }

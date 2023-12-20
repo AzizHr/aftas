@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/competitions")
 public class CompetitionController {
 
@@ -71,7 +72,7 @@ public class CompetitionController {
 
         try{
             message.put("message", "competition found");
-            message.put("competitions", competitionService.findByCode(code));
+            message.put("competition", competitionService.findByCode(code));
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch(Exception e){
             message.put("message", "No competition found");

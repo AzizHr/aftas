@@ -10,4 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RankingRepository extends JpaRepository<Ranking, MemberCompetitionKey> {}
+public interface RankingRepository extends JpaRepository<Ranking, MemberCompetitionKey> {
+
+    @Query("SELECT R FROM Ranking R WHERE R.id.memberNum = :num AND R.id.competitionCode = :code")
+    Optional<Ranking> findByMemberNumAndCompetitionCode(Integer num, String code);
+
+}

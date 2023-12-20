@@ -52,7 +52,7 @@ public class RankingServiceImpl implements RankingService {
 
     @Override
     public RankingResponseDTO findById(MemberCompetitionKey id) throws Exception {
-        Ranking ranking = modelMapper.map(rankingRepository.findById(id).orElseThrow(() -> new Exception("No ranking found")), Ranking.class);
+        Ranking ranking = modelMapper.map(rankingRepository.findByMemberNumAndCompetitionCode(id.getMemberNum(), id.getCompetitionCode()).orElseThrow(() -> new Exception("No ranking found")), Ranking.class);
         return modelMapper.map(ranking, RankingResponseDTO.class);
     }
 
@@ -68,19 +68,26 @@ public class RankingServiceImpl implements RankingService {
                 key.setMemberNum(rankingDTO.getMemberNum());
                 key.setCompetitionCode(rankingDTO.getCompetitionCode());
 
-                Ranking ranking = modelMapper.map(rankingDTO, Ranking.class);
-                ranking.setId(key);
-                if(competitionService.validateCompetitionDate(rankingDTO.getCompetitionCode())) {
-                    ranking = rankingRepository.save(ranking);
+                if(rankingRepository.findByMemberNumAndCompetitionCode(key.getMemberNum(), key.getCompetitionCode()).isPresent()) {
+                    throw new Exception("You're already in this competition");
                 } else {
-                    throw new Exception("Sorry, you can't compete in this one");
+                    Ranking ranking = modelMapper.map(rankingDTO, Ranking.class);
+                    ranking.setId(key);
+                    if(competitionService.validateCompetitionDate(rankingDTO.getCompetitionCode())) {
+                        ranking = rankingRepository.save(ranking);
+                        Competition competition = optionalCompetition.get();
+                        competition.setNumberOfParticipants(competition.getNumberOfParticipants() + 1);
+                        competitionRepository.save(competition);
+                    } else {
+                        throw new Exception("Apologies, joining is only available within 24 hours or more before the competition begins.");
+                    }
+                    RankingResponseDTO responseDTO = modelMapper.map(ranking, RankingResponseDTO.class);
+                    responseDTO.setMemberNum(ranking.getId().getMemberNum());
+                    responseDTO.setCompetitionCode(ranking.getId().getCompetitionCode());
+
+                    return responseDTO;
                 }
 
-                RankingResponseDTO responseDTO = modelMapper.map(ranking, RankingResponseDTO.class);
-                responseDTO.setMemberNum(ranking.getId().getMemberNum());
-                responseDTO.setCompetitionCode(ranking.getId().getCompetitionCode());
-
-                return responseDTO;
             } else {
                 throw new Exception("No competition found for code: " + rankingDTO.getCompetitionCode());
             }

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/levels")
 public class LevelController {
 
@@ -65,7 +66,7 @@ public class LevelController {
     }
 
     @GetMapping("/{code}")
-    public ResponseEntity<Map<String, Object>> level(@PathVariable Integer code) throws Exception {
+    public ResponseEntity<Map<String, Object>> level(@PathVariable Integer code) {
 
         Map<String, Object> message = new HashMap<>();
         try{

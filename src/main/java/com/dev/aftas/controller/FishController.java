@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/fish")
 public class FishController {
 
@@ -38,7 +39,7 @@ public class FishController {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "fish updated");
-            message.put("fish", fishService.save(fishDTO));
+            message.put("fish", fishService.update(fishDTO));
             return new ResponseEntity<>(message, HttpStatus.CREATED);
         }catch(Exception e) {
             throw new Exception("cannot update this fish");

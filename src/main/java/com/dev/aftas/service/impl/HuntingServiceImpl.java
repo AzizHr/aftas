@@ -4,14 +4,9 @@ import com.dev.aftas.dto.hunting.HuntingDTO;
 import com.dev.aftas.dto.hunting.HuntingResponseDTO;
 import com.dev.aftas.model.Fish;
 import com.dev.aftas.model.Hunting;
-import com.dev.aftas.model.Level;
 import com.dev.aftas.model.MemberCompetitionKey;
-import com.dev.aftas.repository.CompetitionRepository;
-import com.dev.aftas.repository.FishRepository;
-import com.dev.aftas.repository.HuntingRepository;
-import com.dev.aftas.repository.MemberRepository;
+import com.dev.aftas.repository.*;
 import com.dev.aftas.service.HuntingService;
-import com.dev.aftas.service.RankingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,15 +20,17 @@ public class HuntingServiceImpl implements HuntingService {
     private final CompetitionRepository competitionRepository;
     private final FishRepository fishRepository;
     private final MemberRepository memberRepository;
+    private final RankingRepository rankingRepository;
     private final RankingServiceImpl rankingService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public HuntingServiceImpl(HuntingRepository huntingRepository, CompetitionRepository competitionRepository, FishRepository fishRepository, MemberRepository memberRepository, RankingServiceImpl rankingService, ModelMapper modelMapper) {
+    public HuntingServiceImpl(HuntingRepository huntingRepository, CompetitionRepository competitionRepository, FishRepository fishRepository, MemberRepository memberRepository, RankingRepository rankingRepository, RankingServiceImpl rankingService, ModelMapper modelMapper) {
         this.huntingRepository = huntingRepository;
         this.competitionRepository = competitionRepository;
         this.fishRepository = fishRepository;
         this.memberRepository = memberRepository;
+        this.rankingRepository = rankingRepository;
         this.rankingService = rankingService;
         this.modelMapper = modelMapper;
     }
@@ -67,14 +64,19 @@ public class HuntingServiceImpl implements HuntingService {
             huntingRepository.save(existingHunting);
         } else {
 
-            Hunting newHunting = modelMapper.map(huntingDTO, Hunting.class);
-            newHunting.setNumberOfFish(huntingDTO.getNumberOfFish());
-            newHunting.setFish(fish);
-            newHunting.setMember(memberRepository.findByNum(huntingDTO.getMemberNum())
-                    .orElseThrow(() -> new RuntimeException("Member not found with number: " + huntingDTO.getMemberNum())));
-            newHunting.setCompetition(competitionRepository.findByCode(huntingDTO.getCompetitionCode())
-                    .orElseThrow(() -> new RuntimeException("Competition not found with code: " + huntingDTO.getCompetitionCode())));
-            huntingRepository.save(newHunting);
+            if(rankingRepository.findByMemberNumAndCompetitionCode(huntingDTO.getMemberNum(), huntingDTO.getCompetitionCode()).isPresent()) {
+                Hunting newHunting = modelMapper.map(huntingDTO, Hunting.class);
+                newHunting.setNumberOfFish(huntingDTO.getNumberOfFish());
+                newHunting.setFish(fish);
+                newHunting.setMember(memberRepository.findByNum(huntingDTO.getMemberNum())
+                        .orElseThrow(() -> new RuntimeException("Member not found with number: " + huntingDTO.getMemberNum())));
+                newHunting.setCompetition(competitionRepository.findByCode(huntingDTO.getCompetitionCode())
+                        .orElseThrow(() -> new RuntimeException("Competition not found with code: " + huntingDTO.getCompetitionCode())));
+                huntingRepository.save(newHunting);
+            } else {
+                throw new Exception("This member is not part of this competition");
+            }
+
         }
 
         MemberCompetitionKey id = new MemberCompetitionKey();

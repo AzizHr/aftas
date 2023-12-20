@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/rankings")
 public class RankingController {
 
@@ -66,7 +67,7 @@ public class RankingController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> ranking(@PathVariable MemberCompetitionKey id) throws Exception {
+    public ResponseEntity<Map<String, Object>> ranking(@PathVariable MemberCompetitionKey id) {
 
         Map<String, Object> message = new HashMap<>();
         try{
@@ -81,7 +82,7 @@ public class RankingController {
     }
 
     @GetMapping()
-    public ResponseEntity<Map<String, Object>> rankings() throws Exception {
+    public ResponseEntity<Map<String, Object>> rankings() {
         Map<String, Object> message = new HashMap<>();
         try{
             if(rankingService.findAll().isEmpty()) {
