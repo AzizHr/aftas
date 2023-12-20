@@ -2,6 +2,7 @@ package com.dev.aftas.controller;
 
 import com.dev.aftas.dto.hunting.HuntingDTO;
 import com.dev.aftas.service.impl.HuntingServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class HuntingController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> save(@RequestBody HuntingDTO huntingDTO) throws Exception {
+    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody HuntingDTO huntingDTO) throws Exception {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "hunting created");
@@ -35,7 +36,7 @@ public class HuntingController {
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, Object>> update(@RequestBody HuntingDTO huntingDTO) throws Exception {
+    public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody HuntingDTO huntingDTO) throws Exception {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "hunting updated");

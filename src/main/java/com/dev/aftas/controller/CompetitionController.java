@@ -2,6 +2,7 @@ package com.dev.aftas.controller;
 
 import com.dev.aftas.dto.competition.CompetitionDTO;
 import com.dev.aftas.service.impl.CompetitionServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class CompetitionController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> save(@RequestBody CompetitionDTO competitionDTO) throws Exception {
+    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody CompetitionDTO competitionDTO) throws Exception {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "competition created");
@@ -35,7 +36,7 @@ public class CompetitionController {
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, Object>> update(@RequestBody CompetitionDTO competitionDTO) throws Exception {
+    public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody CompetitionDTO competitionDTO) throws Exception {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "competition updated");

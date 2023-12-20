@@ -2,6 +2,7 @@ package com.dev.aftas.controller;
 
 import com.dev.aftas.dto.member.MemberDTO;
 import com.dev.aftas.service.impl.MemberServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class MemberController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> save(@RequestBody MemberDTO memberDTO) throws Exception {
+    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody MemberDTO memberDTO) throws Exception {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "member created");
@@ -34,7 +35,7 @@ public class MemberController {
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, Object>> update(@RequestBody MemberDTO memberDTO) throws Exception {
+    public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody MemberDTO memberDTO) throws Exception {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "member updated");

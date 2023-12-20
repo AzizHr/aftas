@@ -3,6 +3,7 @@ package com.dev.aftas.controller;
 import com.dev.aftas.dto.ranking.RankingDTO;
 import com.dev.aftas.model.MemberCompetitionKey;
 import com.dev.aftas.service.impl.RankingServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class RankingController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> save(@RequestBody RankingDTO rankingDTO) throws Exception {
+    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody RankingDTO rankingDTO) throws Exception {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "ranking created");
@@ -36,7 +37,7 @@ public class RankingController {
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, Object>> update(@RequestBody RankingDTO rankingDTO) throws Exception {
+    public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody RankingDTO rankingDTO) throws Exception {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "ranking updated");

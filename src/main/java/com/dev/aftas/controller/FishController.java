@@ -2,6 +2,7 @@ package com.dev.aftas.controller;
 
 import com.dev.aftas.dto.fish.FishDTO;
 import com.dev.aftas.service.impl.FishServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class FishController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> save(@RequestBody FishDTO fishDTO) throws Exception {
+    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody FishDTO fishDTO) throws Exception {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "fish created");
@@ -35,7 +36,7 @@ public class FishController {
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, Object>> update(@RequestBody FishDTO fishDTO) throws Exception {
+    public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody FishDTO fishDTO) throws Exception {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "fish updated");

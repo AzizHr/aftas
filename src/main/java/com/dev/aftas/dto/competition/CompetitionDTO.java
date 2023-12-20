@@ -16,7 +16,7 @@ public class CompetitionDTO {
     private String code;
     @NotNull(message = "Date is required")
     private LocalDate date;
-    @NotNull(message = "StartTime ID is required")
+    @NotNull(message = "StartTime is required")
     private LocalTime startTime;
     @NotNull(message = "EndTime is required")
     private LocalTime endTime;

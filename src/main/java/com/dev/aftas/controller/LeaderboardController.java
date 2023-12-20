@@ -29,7 +29,7 @@ public class LeaderboardController {
                 return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
             }
             message.put("message", "top 3 found");
-            message.put("top 3", memberService.getTopThree(competitionCode));
+            message.put("top_three", memberService.getTopThree(competitionCode));
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch(Exception e){
             message.put("message", e.getMessage());

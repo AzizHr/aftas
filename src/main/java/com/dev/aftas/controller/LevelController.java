@@ -2,6 +2,7 @@ package com.dev.aftas.controller;
 
 import com.dev.aftas.model.Level;
 import com.dev.aftas.service.impl.LevelServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class LevelController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> save(@RequestBody Level level) throws Exception {
+    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody Level level) throws Exception {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "level created");
@@ -35,7 +36,7 @@ public class LevelController {
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, Object>> update(@RequestBody Level level) throws Exception {
+    public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Level level) throws Exception {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "level updated");
