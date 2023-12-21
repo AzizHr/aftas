@@ -45,14 +45,14 @@ public class HuntingServiceImpl implements HuntingService {
     public Integer save(HuntingDTO huntingDTO) throws Exception {
 
         Fish fish = fishRepository.findByName(huntingDTO.getFishName())
-                .orElseThrow(() -> new RuntimeException("Fish not found with name: " + huntingDTO.getFishName()));
+                .orElseThrow(() -> new Exception("Fish not found with name: " + huntingDTO.getFishName()));
 
         Hunting existingHunting = huntingRepository.findByFishAndMemberAndCompetition(
                 fish,
                 memberRepository.findByNum(huntingDTO.getMemberNum())
-                        .orElseThrow(() -> new RuntimeException("Member not found with number: " + huntingDTO.getMemberNum())),
+                        .orElseThrow(() -> new Exception("Member not found with number: " + huntingDTO.getMemberNum())),
                 competitionRepository.findByCode(huntingDTO.getCompetitionCode())
-                        .orElseThrow(() -> new RuntimeException("Competition not found with code: " + huntingDTO.getCompetitionCode()))
+                        .orElseThrow(() -> new Exception("Competition not found with code: " + huntingDTO.getCompetitionCode()))
         );
 
         int points = fish.getLevel().getPoints();
@@ -69,9 +69,9 @@ public class HuntingServiceImpl implements HuntingService {
                 newHunting.setNumberOfFish(huntingDTO.getNumberOfFish());
                 newHunting.setFish(fish);
                 newHunting.setMember(memberRepository.findByNum(huntingDTO.getMemberNum())
-                        .orElseThrow(() -> new RuntimeException("Member not found with number: " + huntingDTO.getMemberNum())));
+                        .orElseThrow(() -> new Exception("Member not found with number: " + huntingDTO.getMemberNum())));
                 newHunting.setCompetition(competitionRepository.findByCode(huntingDTO.getCompetitionCode())
-                        .orElseThrow(() -> new RuntimeException("Competition not found with code: " + huntingDTO.getCompetitionCode())));
+                        .orElseThrow(() -> new Exception("Competition not found with code: " + huntingDTO.getCompetitionCode())));
                 huntingRepository.save(newHunting);
             } else {
                 throw new Exception("This member is not part of this competition");

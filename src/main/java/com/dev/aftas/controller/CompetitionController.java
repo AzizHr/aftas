@@ -23,29 +23,19 @@ public class CompetitionController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody CompetitionDTO competitionDTO) throws Exception {
+    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody CompetitionDTO competitionDTO) {
         Map<String, Object> message = new HashMap<>();
-        try{
-            message.put("message", "competition created");
-            message.put("competition", competitionService.save(competitionDTO));
-            return new ResponseEntity<>(message, HttpStatus.CREATED);
-        }catch(Exception e) {
-            message.put("message", e.getMessage());
-            return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        message.put("message", "competition created");
+        message.put("competition", competitionService.save(competitionDTO));
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody CompetitionDTO competitionDTO) throws Exception {
+    public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody CompetitionDTO competitionDTO) {
         Map<String, Object> message = new HashMap<>();
-        try{
-            message.put("message", "competition updated");
-            message.put("competition", competitionService.save(competitionDTO));
-            return new ResponseEntity<>(message, HttpStatus.CREATED);
-        }catch(Exception e) {
-            message.put("message", e.getMessage());
-            return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        message.put("message", "competition updated");
+        message.put("competition", competitionService.save(competitionDTO));
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{code}")
@@ -81,20 +71,37 @@ public class CompetitionController {
         }
 
     }
+//
+//    @GetMapping()
+//    public ResponseEntity<Map<String, Object>> competitions() throws Exception {
+//        Map<String, Object> message = new HashMap<>();
+//        try{
+//            if(competitionService.findAll().isEmpty()) {
+//                message.put("message", "No competitions found!");
+//                return new ResponseEntity<>(message, HttpStatus.OK);
+//            }
+//            message.put("message", "competitions found");
+//            message.put("competitions", competitionService.findAll());
+//            return new ResponseEntity<>(message, HttpStatus.OK);
+//        }catch(Exception e){
+//            throw new Exception("cannot find any competition");
+//        }
+//    }
 
     @GetMapping()
-    public ResponseEntity<Map<String, Object>> competitions() throws Exception {
+    public ResponseEntity<Map<String, Object>> competitions(@RequestParam int page, @RequestParam int items) throws Exception {
         Map<String, Object> message = new HashMap<>();
         try{
-            if(competitionService.findAll().isEmpty()) {
+            if(competitionService.findAll(page, items).isEmpty()) {
                 message.put("message", "No competitions found!");
                 return new ResponseEntity<>(message, HttpStatus.OK);
             }
             message.put("message", "competitions found");
-            message.put("competitions", competitionService.findAll());
+            message.put("competitions", competitionService.findAll(page, items));
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch(Exception e){
-            throw new Exception("cannot find any competition");
+            message.put("message", e.getMessage());
+            return new ResponseEntity<>(message, HttpStatus.OK);
         }
     }
 

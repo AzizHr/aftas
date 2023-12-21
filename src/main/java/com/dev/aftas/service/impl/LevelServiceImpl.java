@@ -31,12 +31,12 @@ public class LevelServiceImpl implements LevelService {
         for (int i = 0; i < levels.size(); i++) {
             if (levels.get(i).getCode() + 1 == level.getCode()) {
                 if (level.getPoints() <= levels.get(i).getPoints()) {
-                    throw new Exception("Points should be greater than " + levels.get(i).getPoints());
+                    throw new IllegalArgumentException("Points should be greater than " + levels.get(i).getPoints());
                 } else {
                     return levelRepository.save(level);
                 }
             } else if (i == levels.size() - 1) {
-                throw new Exception("ID should be greater than " + levels.get(i).getCode() + " and less than " + (levels.get(i).getCode() + 2));
+                throw new IllegalArgumentException("ID should be greater than " + levels.get(i).getCode() + " and less than " + (levels.get(i).getCode() + 2));
             }
         }
 
@@ -54,12 +54,12 @@ public class LevelServiceImpl implements LevelService {
             for (int i = 0; i < levels.size(); i++) {
                 if (levels.get(i).getCode() + 1 == level.getCode()) {
                     if (level.getPoints() <= levels.get(i).getPoints()) {
-                        throw new Exception("Points should be greater than " + levels.get(i).getPoints());
+                        throw new IllegalArgumentException("Points should be greater than " + levels.get(i).getPoints());
                     } else {
                         return levelRepository.save(level);
                     }
                 } else if (i == levels.size() - 1) {
-                    throw new Exception("ID should be greater than " + levels.get(i).getCode() + " and less than " + (levels.get(i).getCode() + 2));
+                    throw new IllegalArgumentException("ID should be greater than " + levels.get(i).getCode() + " and less than " + (levels.get(i).getCode() + 2));
                 }
             }
         }

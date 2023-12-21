@@ -7,6 +7,9 @@ import com.dev.aftas.repository.CompetitionRepository;
 import com.dev.aftas.service.CompetitionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -14,6 +17,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class CompetitionServiceImpl implements CompetitionService {
@@ -31,6 +35,16 @@ public class CompetitionServiceImpl implements CompetitionService {
     @Override
     public List<CompetitionResponseDTO> findAll() {
         return Arrays.asList(modelMapper.map(competitionRepository.findAll(), CompetitionResponseDTO[].class));
+    }
+
+    public List<CompetitionResponseDTO> findAll(int pageNumber, int pageSize) {
+        Pageable pages = PageRequest.of(pageNumber, pageSize);
+        Page<Competition> competitionsPage = competitionRepository.findAll(pages);
+
+        return competitionsPage
+                .stream()
+                .map(subject -> modelMapper.map(subject, CompetitionResponseDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override

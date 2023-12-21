@@ -69,7 +69,7 @@ public class RankingServiceImpl implements RankingService {
                 key.setCompetitionCode(rankingDTO.getCompetitionCode());
 
                 if(rankingRepository.findByMemberNumAndCompetitionCode(key.getMemberNum(), key.getCompetitionCode()).isPresent()) {
-                    throw new Exception("You're already in this competition");
+                    throw new RuntimeException("You're already in this competition");
                 } else {
                     Ranking ranking = modelMapper.map(rankingDTO, Ranking.class);
                     ranking.setId(key);
@@ -79,7 +79,7 @@ public class RankingServiceImpl implements RankingService {
                         competition.setNumberOfParticipants(competition.getNumberOfParticipants() + 1);
                         competitionRepository.save(competition);
                     } else {
-                        throw new Exception("Apologies, joining is only available within 24 hours or more before the competition begins.");
+                        throw new RuntimeException("Apologies, joining is only available within 24 hours or more before the competition begins.");
                     }
                     RankingResponseDTO responseDTO = modelMapper.map(ranking, RankingResponseDTO.class);
                     responseDTO.setMemberNum(ranking.getId().getMemberNum());
