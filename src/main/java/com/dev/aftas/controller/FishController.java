@@ -36,7 +36,7 @@ public class FishController {
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody FishDTO fishDTO) throws Exception {
+    public ResponseEntity<Map<String, Object>> update(@RequestBody FishDTO fishDTO) throws Exception {
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", "fish updated");

@@ -21,7 +21,7 @@ public class CompetitionDTO {
     @NotNull(message = "EndTime is required")
     private LocalTime endTime;
     @NotNull(message = "Number of participants is required")
-    @Min(3)
+    @Min(value = 3, message = "min is 3")
     private Integer numberOfParticipants;
     @NotNull(message = "Location is required")
     private String location;

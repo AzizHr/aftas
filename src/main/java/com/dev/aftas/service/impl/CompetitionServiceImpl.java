@@ -8,7 +8,7 @@ import com.dev.aftas.service.CompetitionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
@@ -37,18 +37,26 @@ public class CompetitionServiceImpl implements CompetitionService {
         return Arrays.asList(modelMapper.map(competitionRepository.findAll(), CompetitionResponseDTO[].class));
     }
 
-    public List<CompetitionResponseDTO> findAll(int pageNumber, int pageSize) {
-        Pageable pages = PageRequest.of(pageNumber, pageSize);
-        Page<Competition> competitionsPage = competitionRepository.findAll(pages);
+    public Page<CompetitionResponseDTO> findAll(Pageable pageable) {
 
-        return competitionsPage
-                .stream()
-                .map(subject -> modelMapper.map(subject, CompetitionResponseDTO.class))
-                .collect(Collectors.toList());
+        Page<Competition> pageCompetition = competitionRepository.findAll(pageable);
+
+        return new PageImpl<>(
+                pageCompetition.getContent().stream()
+                        .map(this::convertCompetitionToCompetitionResp)
+                        .collect(Collectors.toList()),
+                pageCompetition.getPageable(),
+                pageCompetition.getTotalElements()
+        );
+
+    }
+
+    private CompetitionResponseDTO convertCompetitionToCompetitionResp(Competition competition) {
+        return modelMapper.map(competition,CompetitionResponseDTO.class);
     }
 
     @Override
-    public CompetitionResponseDTO save(CompetitionDTO competitionDTO) {
+    public CompetitionResponseDTO save(CompetitionDTO competitionDTO){
 
         if (competitionRepository.existsByLocationAndDate(competitionDTO.getLocation(), competitionDTO.getDate())) {
             throw new RuntimeException("A competition is already exists with the same location and date.");

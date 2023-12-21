@@ -25,14 +25,9 @@ public class LevelController {
     @PostMapping
     public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody Level level) throws Exception {
         Map<String, Object> message = new HashMap<>();
-        try{
-            message.put("message", "level created");
-            message.put("level", levelService.save(level));
-            return new ResponseEntity<>(message, HttpStatus.CREATED);
-        }catch(Exception e) {
-            message.put("message", e.getMessage());
-            return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        message.put("message", "level created");
+        message.put("level", levelService.save(level));
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
     @PutMapping

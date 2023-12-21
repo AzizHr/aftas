@@ -1,9 +1,12 @@
 package com.dev.aftas.controller;
 
 import com.dev.aftas.dto.competition.CompetitionDTO;
+import com.dev.aftas.dto.competition.CompetitionResponseDTO;
 import com.dev.aftas.service.impl.CompetitionServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,17 +28,27 @@ public class CompetitionController {
     @PostMapping
     public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody CompetitionDTO competitionDTO) {
         Map<String, Object> message = new HashMap<>();
-        message.put("message", "competition created");
-        message.put("competition", competitionService.save(competitionDTO));
-        return new ResponseEntity<>(message, HttpStatus.CREATED);
+        try{
+            message.put("message", "competition created");
+            message.put("competition", competitionService.save(competitionDTO));
+            return new ResponseEntity<>(message, HttpStatus.CREATED);
+        }catch(Exception e) {
+            message.put("message", e.getMessage());
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody CompetitionDTO competitionDTO) {
+    public ResponseEntity<Map<String, Object>> update(@RequestBody CompetitionDTO competitionDTO) {
         Map<String, Object> message = new HashMap<>();
-        message.put("message", "competition updated");
-        message.put("competition", competitionService.save(competitionDTO));
-        return new ResponseEntity<>(message, HttpStatus.CREATED);
+        try{
+            message.put("message", "competition updated");
+            message.put("competition", competitionService.update(competitionDTO));
+            return new ResponseEntity<>(message, HttpStatus.CREATED);
+        }catch(Exception e) {
+            message.put("message", e.getMessage());
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{code}")
@@ -71,7 +84,7 @@ public class CompetitionController {
         }
 
     }
-//
+
 //    @GetMapping()
 //    public ResponseEntity<Map<String, Object>> competitions() throws Exception {
 //        Map<String, Object> message = new HashMap<>();
@@ -88,21 +101,24 @@ public class CompetitionController {
 //        }
 //    }
 
-    @GetMapping()
-    public ResponseEntity<Map<String, Object>> competitions(@RequestParam int page, @RequestParam int items) throws Exception {
-        Map<String, Object> message = new HashMap<>();
-        try{
-            if(competitionService.findAll(page, items).isEmpty()) {
-                message.put("message", "No competitions found!");
-                return new ResponseEntity<>(message, HttpStatus.OK);
-            }
-            message.put("message", "competitions found");
-            message.put("competitions", competitionService.findAll(page, items));
-            return new ResponseEntity<>(message, HttpStatus.OK);
-        }catch(Exception e){
-            message.put("message", e.getMessage());
-            return new ResponseEntity<>(message, HttpStatus.OK);
-        }
+//    @GetMapping()
+//    public ResponseEntity<Pageable> competitions(Pageable pageable) throws Exception {
+//
+//        return new ResponseEntity<Pageable>.ok(competitionService.findAll());
+//         /*
+//        Map<String, Object> message = new HashMap<>();
+//        message.put("message", "competitions found");
+//        message.put("competitions", competitionService.findAll(pageable));
+//        return new ResponseEntity<>(message, HttpStatus.OK);
+//          */
+//    }
+
+    @GetMapping
+    public ResponseEntity<Page<CompetitionResponseDTO>> getCompetitions(
+            Pageable pageable) {
+        return ResponseEntity
+                .ok()
+                .body(competitionService.findAll(pageable));
     }
 
 }

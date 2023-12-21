@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> RuntimeException(RuntimeException e) {
+    public ResponseEntity<String> runtimeException(RuntimeException e) {
 
         String errorMessage = e.getMessage();
 

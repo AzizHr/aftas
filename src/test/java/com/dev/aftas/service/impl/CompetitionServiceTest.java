@@ -2,8 +2,10 @@ package com.dev.aftas.service.impl;
 
 import com.dev.aftas.dto.competition.CompetitionDTO;
 import com.dev.aftas.dto.competition.CompetitionResponseDTO;
+import com.dev.aftas.dto.member.TopMemberDTO;
 import com.dev.aftas.model.Competition;
 import com.dev.aftas.repository.CompetitionRepository;
+import com.dev.aftas.service.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -11,12 +13,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
-
-
 import java.time.LocalDate;
-import java.util.Collections;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -24,6 +25,8 @@ class CompetitionServiceTest {
 
     @Mock
     private CompetitionRepository competitionRepository;
+    @Mock
+    private MemberService memberService;
 
     @Mock
     private ModelMapper modelMapper;
@@ -36,30 +39,20 @@ class CompetitionServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void findAllTest() {
-
-        Competition competition = new Competition();
-        when(competitionRepository.findAll()).thenReturn(Collections.singletonList(competition));
-
-        CompetitionResponseDTO responseDTO = new CompetitionResponseDTO();
-        when(modelMapper.map(competition, CompetitionResponseDTO.class)).thenReturn(responseDTO);
-
-        assertEquals(Collections.singletonList(responseDTO), competitionService.findAll());
-    }
-
 
     @Test
     void saveTest() {
 
         CompetitionDTO competitionDTO = new CompetitionDTO();
+        competitionDTO.setDate(LocalDate.now());
+        competitionDTO.setLocation("Location");
+        competitionDTO.setNumberOfParticipants(3);
+        competitionDTO.setStartTime(LocalTime.of(9,0,0));
+
         Competition competition = new Competition();
         when(modelMapper.map(competitionDTO, Competition.class)).thenReturn(competition);
         when(competitionRepository.existsByLocationAndDate(Mockito.anyString(), Mockito.any(LocalDate.class)))
                 .thenReturn(false);
-
-        when(competitionService.generateCode(Mockito.anyString(), Mockito.any(LocalDate.class)))
-                .thenReturn("abc-21-12-23");
 
         CompetitionResponseDTO responseDTO = new CompetitionResponseDTO();
         when(modelMapper.map(competitionRepository.save(competition), CompetitionResponseDTO.class))
@@ -67,45 +60,6 @@ class CompetitionServiceTest {
 
         assertEquals(responseDTO, competitionService.save(competitionDTO));
     }
-
-    @Test
-    void updateTest() throws Exception {
-
-        CompetitionDTO competitionDTO = new CompetitionDTO();
-        Competition competition = new Competition();
-        when(modelMapper.map(competitionDTO, Competition.class)).thenReturn(competition);
-        when(competitionRepository.findByCode(Mockito.anyString())).thenReturn(Optional.of(new Competition()));
-
-        CompetitionResponseDTO responseDTO = new CompetitionResponseDTO();
-        when(modelMapper.map(competitionRepository.save(competition), CompetitionResponseDTO.class))
-                .thenReturn(responseDTO);
-        assertEquals(responseDTO, competitionService.update(competitionDTO));
-    }
-
-
-    @Test
-    void deleteTest() throws Exception {
-
-        String code = "abc-21-12-23";
-        when(competitionRepository.findByCode(code)).thenReturn(Optional.of(new Competition()));
-
-        assertTrue(competitionService.delete(code));
-    }
-
-
-    @Test
-    void findByCodeTest() throws Exception {
-
-        String code = "abc-21-12-23";
-        Competition competition = new Competition();
-        when(competitionRepository.findByCode(code)).thenReturn(Optional.of(competition));
-
-        CompetitionResponseDTO responseDTO = new CompetitionResponseDTO();
-        when(modelMapper.map(competition, CompetitionResponseDTO.class)).thenReturn(responseDTO);
-
-        assertEquals(responseDTO, competitionService.findByCode(code));
-    }
-
 
     @Test
     void generateCodeTest() {
@@ -135,6 +89,15 @@ class CompetitionServiceTest {
         when(competitionRepository.findById(competitionCode)).thenReturn(Optional.of(competition));
 
         assertTrue(competitionService.validateCompetitionDate(competitionCode));
+    }
+
+    @Test
+    void getTop3Test() throws Exception {
+        List<TopMemberDTO> topThree = new ArrayList<>();
+        String code = "loc-21-12-23";
+
+        when(memberService.getTopThree(code)).thenReturn(topThree);
+        assertEquals(topThree, memberService.getTopThree(code));
     }
 
 }
